@@ -2,6 +2,8 @@ FROM php:8.2-cli-alpine
 
 WORKDIR /var/www/html
 
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
 RUN apk add --no-cache \
     bash \
     curl \
@@ -12,10 +14,9 @@ RUN apk add --no-cache \
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-COPY composer.json composer.lock ./
-RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
-
 COPY . .
+
+RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-scripts
 
 RUN chmod -R 775 storage bootstrap/cache
 RUN chmod +x docker/start.sh
