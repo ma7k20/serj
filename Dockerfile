@@ -9,8 +9,9 @@ RUN apk add --no-cache \
     curl \
     libzip-dev \
     oniguruma-dev \
+    postgresql-dev \
     unzip \
-    && docker-php-ext-install pdo pdo_mysql
+    && docker-php-ext-install pdo pdo_mysql pdo_pgsql
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 

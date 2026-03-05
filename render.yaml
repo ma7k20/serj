@@ -1,3 +1,9 @@
+databases:
+  - name: serj-db
+    plan: free
+    databaseName: serj
+    user: serj_user
+
 services:
   - type: web
     name: serj-profit-system
@@ -15,23 +21,33 @@ services:
       - key: APP_URL
         sync: false
       - key: APP_KEY
-        sync: false
+        generateValue: true
       - key: LOG_CHANNEL
         value: stderr
       - key: LOG_LEVEL
         value: warning
       - key: DB_CONNECTION
-        value: mysql
+        value: pgsql
       - key: DB_HOST
-        sync: false
+        fromDatabase:
+          name: serj-db
+          property: host
       - key: DB_PORT
-        value: "3306"
+        fromDatabase:
+          name: serj-db
+          property: port
       - key: DB_DATABASE
-        sync: false
+        fromDatabase:
+          name: serj-db
+          property: database
       - key: DB_USERNAME
-        sync: false
+        fromDatabase:
+          name: serj-db
+          property: user
       - key: DB_PASSWORD
-        sync: false
+        fromDatabase:
+          name: serj-db
+          property: password
       - key: SESSION_DRIVER
         value: file
       - key: CACHE_DRIVER
